@@ -981,6 +981,38 @@ fn fix_modifiers(modifiers: &[EnumOrUnknown<ControlKey>], en: &mut Enigo, ck: i3
 
 // Update time to avoid send cursor position event to the peer.
 // See `run_pos` --> `set_cursor_position` --> `exclude`
+/// The last ABSOLUTE peer-injected pointer position (post-remap desktop px) and the wall-clock
+/// ms at which it was injected. Deliberately NOT `LATEST_PEER_INPUT_CURSOR`, which has a second
+/// writer: the relative-movement path stores `get_cursor_pos()`, which on Linux is libxdo against
+/// `$DISPLAY`, so it is an X-server coordinate that never went through the layout remap. Mixing
+/// the two spaces would make the calibration subtract coordinates from different systems, and the
+/// bitmap bound is too loose to catch a scale-sized error. Only the absolute path writes here.
+#[cfg(all(target_os = "linux", feature = "drm"))]
+static LATEST_PEER_ABS_POS: std::sync::Mutex<Option<((i32, i32), i64)>> =
+    std::sync::Mutex::new(None);
+
+/// Test-only: seed the absolute-input state as if the peer moved `age_ms` ago. The gates in
+/// `note_cursor_plane` that sit AFTER the peer-input gate (transform, drift) are unreachable in a
+/// test process otherwise, and a test that never reaches its gate passes with the gate deleted.
+#[cfg(all(test, target_os = "linux", feature = "drm"))]
+pub(crate) fn test_seed_peer_abs_pos(x: i32, y: i32, age_ms: i64) {
+    *LATEST_PEER_ABS_POS.lock().unwrap() = Some(((x, y), get_time() - age_ms));
+}
+#[cfg(all(test, target_os = "linux", feature = "drm"))]
+pub(crate) fn test_clear_peer_abs_pos() {
+    *LATEST_PEER_ABS_POS.lock().unwrap() = None;
+}
+
+/// The last ABSOLUTE peer-injected pointer position (post-remap desktop px) and its age in ms.
+/// `None` until a peer has moved the mouse ABSOLUTELY this session. The DRM cursor calibration
+/// subtracts the cursor-plane position from this to recover the hotspot the kernel does not
+/// expose, so it must never see a relative-path position: see `LATEST_PEER_ABS_POS`.
+#[cfg(all(target_os = "linux", feature = "drm"))]
+pub(crate) fn last_peer_input_pos_and_age_ms() -> Option<((i32, i32), i64)> {
+    let (pos, at) = (*LATEST_PEER_ABS_POS.lock().unwrap())?;
+    Some((pos, get_time() - at))
+}
+
 #[inline]
 pub fn update_latest_input_cursor_time(conn: i32) {
     let mut lock = LATEST_PEER_INPUT_CURSOR.lock().unwrap();
@@ -1159,6 +1191,10 @@ pub fn handle_mouse_simulation_(evt: &MouseEvent, conn: i32) {
             #[cfg(not(target_os = "linux"))]
             let (mx, my) = (evt.x, evt.y);
             en.mouse_move_to(mx, my);
+            #[cfg(all(target_os = "linux", feature = "drm"))]
+            {
+                *LATEST_PEER_ABS_POS.lock().unwrap() = Some(((mx, my), get_time()));
+            }
             *LATEST_PEER_INPUT_CURSOR.lock().unwrap() = Input {
                 conn,
                 time: get_time(),
