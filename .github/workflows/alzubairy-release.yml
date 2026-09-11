@@ -1,0 +1,21 @@
+name: Build Alzubairy Remote
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - worktree-port-forward-shared-conn
+    paths:
+      - ".github/workflows/alzubairy-release.yml"
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/flutter-build.yml
+    secrets: inherit
+    with:
+      upload-artifact: true
+      upload-tag: alzubairy-beta
