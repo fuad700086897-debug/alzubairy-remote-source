@@ -52,10 +52,10 @@ fn initialize(app_dir: &str, custom_client_config: &str) {
     } else {
         crate::read_custom_client(custom_client_config);
     }
-    *config::PROD_RENDEZVOUS_SERVER.write().unwrap() = "187.124.18.51".to_owned();
+    *config::PROD_RENDEZVOUS_SERVER.write().unwrap() = "server.fzremote.net".to_owned();
     config::Config::set_option(
         "custom-rendezvous-server".into(),
-        "187.124.18.51".into(),
+        "server.fzremote.net".into(),
     );
     config::Config::set_option(
         "key".into(),
