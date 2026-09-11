@@ -7,6 +7,7 @@ on:
       - fzremote-stable
     paths:
       - ".github/workflows/fzremote-stable-build.yml"
+      - ".github/workflows/flutter-build.yml"
       - "src/**"
       - "flutter/android/**"
       - "flutter/windows/**"
