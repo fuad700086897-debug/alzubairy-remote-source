@@ -1,0 +1,15 @@
+services:
+  license-panel:
+    build: .
+    container_name: alzubairy-license
+    environment:
+      ALZUBAIRY_ADMIN_USER: ${ALZUBAIRY_ADMIN_USER:-admin}
+      ALZUBAIRY_ADMIN_PASSWORD: ${ALZUBAIRY_ADMIN_PASSWORD:?Set ALZUBAIRY_ADMIN_PASSWORD in .env}
+      ALZUBAIRY_DATA_DIR: /data
+      ALZUBAIRY_PUBLIC_URL: ${ALZUBAIRY_PUBLIC_URL:-http://127.0.0.1:8080}
+    volumes:
+      - ./data:/data
+    ports:
+      - "127.0.0.1:8080:8080"
+    restart: unless-stopped
+
