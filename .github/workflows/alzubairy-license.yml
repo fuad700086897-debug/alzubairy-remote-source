@@ -1,0 +1,37 @@
+name: Test Alzubairy License Service
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - worktree-port-forward-shared-conn
+    paths:
+      - "alzubairy-license/**"
+      - ".github/workflows/alzubairy-license.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Check Python syntax
+        run: python3 -m py_compile alzubairy-license/app.py
+      - name: Build container
+        run: docker build -t alzubairy-license:test alzubairy-license
+      - name: Verify health endpoint
+        run: |
+          mkdir -p "$RUNNER_TEMP/alzubairy-license-data"
+          docker run -d --name alzubairy-license-test \
+            -e ALZUBAIRY_ADMIN_PASSWORD=test-only-password \
+            -v "$RUNNER_TEMP/alzubairy-license-data:/data" \
+            -p 127.0.0.1:18080:8080 \
+            alzubairy-license:test
+          for attempt in {1..20}; do
+            curl --fail --silent http://127.0.0.1:18080/health && exit 0
+            sleep 1
+          done
+          docker logs alzubairy-license-test
+          exit 1
