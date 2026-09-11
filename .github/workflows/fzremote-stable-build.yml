@@ -1,0 +1,28 @@
+name: Build FZ Remote Stable
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fzremote-stable
+    paths:
+      - ".github/workflows/fzremote-stable-build.yml"
+      - "src/**"
+      - "flutter/android/**"
+      - "flutter/windows/**"
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: fzremote-stable-build
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/flutter-build.yml
+    secrets: inherit
+    with:
+      upload-artifact: true
+      upload-tag: fzremote-beta
