@@ -78,6 +78,7 @@ jobs:
       target_version: Windows10
 
   build-for-windows-flutter:
+    if: ${{ always() && needs.generate-bridge.result == 'success' }}
     name: ${{ matrix.job.target }}
     needs: [build-RustDeskTempTopMostWindow, generate-bridge]
     runs-on: ${{ matrix.job.os }}
