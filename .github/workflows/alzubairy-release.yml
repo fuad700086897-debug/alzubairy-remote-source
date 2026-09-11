@@ -7,10 +7,18 @@ on:
       - worktree-port-forward-shared-conn
     paths:
       - ".github/workflows/alzubairy-release.yml"
+      - "src/**"
+      - "flutter/android/**"
+      - "flutter/windows/**"
+      - "branding/**"
 
 permissions:
   contents: write
   actions: read
+
+concurrency:
+  group: alzubairy-release
+  cancel-in-progress: true
 
 jobs:
   build:
