@@ -33,6 +33,21 @@ pub fn core_main() -> Option<Vec<String>> {
         return None;
     }
     crate::load_custom_client();
+
+    // FZ Remote defaults must be initialized in every process, including the
+    // Windows service running as SYSTEM. Flutter initialization happens too
+    // late for the background service.
+    *config::APP_NAME.write().unwrap() = "FZ Remote".to_owned();
+    *config::PROD_RENDEZVOUS_SERVER.write().unwrap() = "server.fzremote.net".to_owned();
+    config::Config::set_option(
+        "custom-rendezvous-server".into(),
+        "server.fzremote.net".into(),
+    );
+    config::Config::set_option(
+        "key".into(),
+        "uJX36cUbQwNN8HsHok2ErTnfrzWUmddXD3gAdG6010s=".into(),
+    );
+
     #[cfg(windows)]
     if !crate::platform::windows::bootstrap() {
         // return None to terminate the process
