@@ -9,7 +9,24 @@ services:
       ALZUBAIRY_PUBLIC_URL: ${ALZUBAIRY_PUBLIC_URL:-http://127.0.0.1:8080}
     volumes:
       - ./data:/data
-    ports:
-      - "127.0.0.1:8080:8080"
+    expose:
+      - "8080"
     restart: unless-stopped
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: alzubairy-license-proxy
+    depends_on:
+      - license-panel
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    restart: unless-stopped
+
+volumes:
+  caddy_data:
+  caddy_config:
