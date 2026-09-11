@@ -38,6 +38,7 @@ lazy_static::lazy_static! {
 }
 
 fn initialize(app_dir: &str, custom_client_config: &str) {
+    *config::APP_NAME.write().unwrap() = "FZ Remote".to_owned();
     flutter::async_tasks::start_flutter_async_runner();
     // `APP_DIR` is set in `main_get_data_dir_ios()` on iOS.
     #[cfg(not(target_os = "ios"))]
@@ -50,6 +51,15 @@ fn initialize(app_dir: &str, custom_client_config: &str) {
     } else {
         crate::read_custom_client(custom_client_config);
     }
+    *config::PROD_RENDEZVOUS_SERVER.write().unwrap() = "server.fzremote.net".to_owned();
+    config::Config::set_option(
+        "custom-rendezvous-server".into(),
+        "server.fzremote.net".into(),
+    );
+    config::Config::set_option(
+        "key".into(),
+        "uJX36cUbQwNN8HsHok2ErTnfrzWUmddXD3gAdG6010s=".into(),
+    );
     #[cfg(target_os = "android")]
     {
         // flexi_logger can't work when android_logger initialized.
