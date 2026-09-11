@@ -10,7 +10,6 @@ cp .env.example .env
 docker compose up -d --build
 ```
 
-الخدمة تستمع محليًا على `127.0.0.1:8080` ويجب نشرها خلف HTTPS عبر Caddy أو Nginx. لوحة الإدارة في `/admin` وواجهة فحص الصحة في `/health`.
+يشغّل Compose بوابة Caddy ويصدر شهادة HTTPS تلقائيًا للنطاق `license.fzremote.net`. لوحة الإدارة في `/admin` وواجهة فحص الصحة في `/health`.
 
 احتفظ بنسخة احتياطية من مجلد `data`. يحتوي ملف `license_signing_ed25519.pem` على مفتاح التوقيع الخاص ويجب ألا يُرفع إلى Git أو يُشارك مع أي شخص.
-
