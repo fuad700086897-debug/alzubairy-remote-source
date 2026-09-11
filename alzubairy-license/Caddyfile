@@ -1,0 +1,4 @@
+license.fzremote.net {
+    encode zstd gzip
+    reverse_proxy license-panel:8080
+}
