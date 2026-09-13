@@ -17,6 +17,7 @@ use hbb_common::{
     bail,
     config::{Config, CONNECT_TIMEOUT, RELAY_PORT},
     log,
+    message_proto::IdPk,
     protobuf::{Enum, Message as _},
     rendezvous_proto::*,
     socket_client,

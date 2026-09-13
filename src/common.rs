@@ -23,6 +23,7 @@ use hbb_common::{
     futures::future::join_all,
     futures_util::future::poll_fn,
     get_version_number, log,
+    message_proto::IdPk,
     protobuf::{Enum, Message as _},
     rendezvous_proto::*,
     socket_client,
