@@ -39,7 +39,7 @@ lazy_static::lazy_static! {
 }
 
 fn initialize(app_dir: &str, custom_client_config: &str) {
-    *config::APP_NAME.write().unwrap() = "Alzubairy Remote".to_owned();
+    *config::APP_NAME.write().unwrap() = "Yemen Remote".to_owned();
     flutter::async_tasks::start_flutter_async_runner();
     // `APP_DIR` is set in `main_get_data_dir_ios()` on iOS.
     #[cfg(not(target_os = "ios"))]

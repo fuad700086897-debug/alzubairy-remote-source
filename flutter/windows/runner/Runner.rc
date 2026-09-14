@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "Purslane Tech Pte. Ltd." "\0"
-            VALUE "FileDescription", "Alzubairy Remote Desktop" "\0"
+            VALUE "CompanyName", "Yemen Remote" "\0"
+            VALUE "FileDescription", "Yemen Remote Desktop" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "rustdesk" "\0"
-            VALUE "LegalCopyright", "Copyright © 2026 Purslane Tech Pte. Ltd. All rights reserved." "\0"
-            VALUE "OriginalFilename", "rustdesk.exe" "\0"
-            VALUE "ProductName", "Alzubairy Remote" "\0"
+            VALUE "LegalCopyright", "Copyright © 2026 Yemen Remote. All rights reserved." "\0"
+            VALUE "OriginalFilename", "YemenRemote.exe" "\0"
+            VALUE "ProductName", "Yemen Remote" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

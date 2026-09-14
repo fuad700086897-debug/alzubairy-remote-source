@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">الزبيري</string>
+    <string name="app_name">Yemen Remote</string>
     <string name="accessibility_service_description">يسمح للأجهزة المصرح لها بالتحكم بالهاتف بعد بدء مشاركة الشاشة والموافقة عليها.</string>
-    <string name="foreground_service_special_use_subtype">يحافظ على جاهزية خدمة الزبيري للاتصالات المصرح بها مع إشعار ظاهر، ولا يبدأ التقاط الشاشة دون موافقة المستخدم.</string>
+    <string name="foreground_service_special_use_subtype">يحافظ Yemen Remote على جاهزية الاتصال المصرح به مع إشعار ظاهر، ولا يبدأ التقاط الشاشة دون موافقة المستخدم.</string>
 </resources>
