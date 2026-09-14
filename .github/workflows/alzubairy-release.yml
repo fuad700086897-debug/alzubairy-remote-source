@@ -7,6 +7,7 @@ on:
       - worktree-port-forward-shared-conn
     paths:
       - ".github/workflows/alzubairy-release.yml"
+      - ".github/workflows/flutter-build.yml"
       - "Cargo.toml"
       - "Cargo.lock"
       - "libs/base/**"
