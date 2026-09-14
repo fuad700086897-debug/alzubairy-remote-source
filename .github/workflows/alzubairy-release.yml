@@ -1,4 +1,4 @@
-name: Build Alzubairy Remote
+name: Build Yemen Remote
 
 on:
   workflow_dispatch:
@@ -20,7 +20,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: alzubairy-release
+  group: yemen-remote-release
   cancel-in-progress: true
 
 jobs:
@@ -29,4 +29,5 @@ jobs:
     secrets: inherit
     with:
       upload-artifact: true
-      upload-tag: alzubairy-beta
+      upload-tag: yemen-remote-beta
+      windows-android-only: true
